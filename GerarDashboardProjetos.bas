@@ -1,4 +1,4 @@
-Attribute VB_Name = "MÛdulo4"
+Attribute VB_Name = "M√≥dulo4"
 Sub GerarDashboardProjetos_Paginado()
     Dim pptApp As Object, pptPres As Object, pptSlide As Object, pptTable As Object
     Dim ws As Worksheet: Dim lo As ListObject
@@ -6,7 +6,7 @@ Sub GerarDashboardProjetos_Paginado()
     Dim totalEquipe As Double, totalPendencias As Double, globalPercent As Double
     Dim currentEquipe As Double, currentPend As Double, vDataLanc As Variant
     
-    ' --- CONFIGURA«√O DE PAGINA«√O ---
+    ' --- CONFIGURA√á√ÉO DE PAGINA√á√ÉO ---
     Dim rowsPerSlide As Integer: rowsPerSlide = 10
     Dim totalProjetos As Long, numSlides As Integer, s As Integer
     Dim startRow As Long, endRow As Long, rowsOnThisSlide As Integer
@@ -14,32 +14,32 @@ Sub GerarDashboardProjetos_Paginado()
     ' Constantes PowerPoint
     Const ppLayoutBlank As Integer = 12: Const msoTrue As Integer = -1: Const ppAlignCenter As Integer = 2
 
-    ' --- CONFIGURA«√O DE DESIGN ---
+    ' --- CONFIGURA√á√ÉO DE DESIGN ---
     Dim fName As String: fName = "Nunito"
     Dim cGrafite As Long: cGrafite = RGB(44, 48, 62)
     Dim cCoral As Long: cCoral = RGB(255, 94, 87)
     Dim cAmarelo As Long: cAmarelo = RGB(250, 224, 114)
     Dim cVerde As Long: cVerde = RGB(0, 176, 80)
     
-    ' --- REFER NCIA DA PLANILHA E TABELA ---
+    ' --- REFER√äNCIA DA PLANILHA E TABELA ---
     On Error Resume Next
     Set ws = ThisWorkbook.Sheets("Project Deployment Tracker")
     Set lo = ws.ListObjects("tblProjects")
     On Error GoTo 0
     
     If lo Is Nothing Then
-        MsgBox "Erro: Planilha 'Project Deployment Tracker' ou Tabela 'tblProjects' n„o encontrada!", vbCritical
+        MsgBox "Erro: Planilha 'Project Deployment Tracker' ou Tabela 'tblProjects' n√£o encontrada!", vbCritical
         Exit Sub
     End If
 
-    ' --- C¡LCULOS TOTAIS PARA KPI GLOBAL ---
+    ' --- C√ÅLCULOS TOTAIS PARA KPI GLOBAL ---
     totalProjetos = lo.ListRows.Count
     If totalProjetos > 0 Then
         totalEquipe = Application.Sum(lo.ListColumns(7).DataBodyRange)
         totalPendencias = Application.Sum(lo.ListColumns(10).DataBodyRange)
         If totalEquipe > 0 Then globalPercent = totalPendencias / totalEquipe Else globalPercent = 0
     Else
-        MsgBox "A tabela est· vazia.": Exit Sub
+        MsgBox "A tabela est√° vazia.": Exit Sub
     End If
     
     ' Iniciar PowerPoint
@@ -51,7 +51,7 @@ Sub GerarDashboardProjetos_Paginado()
     Set pptPres = pptApp.Presentations.Add
     pptApp.Visible = msoTrue
 
-    ' --- LOOP DE CRIA«√O DE SLIDES ---
+    ' --- LOOP DE CRIA√á√ÉO DE SLIDES ---
     numSlides = Application.WorksheetFunction.RoundUp(totalProjetos / rowsPerSlide, 0)
     
     For s = 1 To numSlides
@@ -67,18 +67,18 @@ Sub GerarDashboardProjetos_Paginado()
             .Fill.ForeColor.RGB = cGrafite: .Line.Visible = 0
         End With
         
-        ' TÌtulo (Tamanho 16 conforme solicitado)
+        ' T√≠tulo (Tamanho 16 conforme solicitado)
         With pptSlide.Shapes.AddTextbox(1, 30, 15, 600, 40)
             With .TextFrame.TextRange
-                .Text = "ACOMPANHAMENTO DE PROJETOS E IMPLANTA«’ES ï JUNHO 2026"
+                .Text = "ACOMPANHAMENTO DE PROJETOS E IMPLANTA√á√ïES ‚Ä¢ JUNHO 2026"
                 .Font.Name = fName: .Font.Size = 16: .Font.Bold = msoTrue: .Font.Color.RGB = vbWhite
             End With
         End With
 
-        ' MÈtricas Consolidadas
+        ' M√©tricas Consolidadas
         With pptSlide.Shapes.AddTextbox(1, 580, 18, 350, 30)
             With .TextFrame.TextRange
-                .Text = totalProjetos & " PROJETOS  |  " & totalPendencias & " PEND NCIAS  |  " & Format(globalPercent, "0%") & " CRÕTICO"
+                .Text = totalProjetos & " PROJETOS  |  " & totalPendencias & " PEND√äNCIAS  |  " & Format(globalPercent, "0%") & " CR√çTICO"
                 .Font.Name = fName: .Font.Size = 11: .Font.Bold = msoTrue: .Font.Color.RGB = vbWhite
                 .ParagraphFormat.Alignment = 3
             End With
@@ -88,7 +88,7 @@ Sub GerarDashboardProjetos_Paginado()
         Set pptTable = pptSlide.Shapes.AddTable(rowsOnThisSlide + 1, 13, 10, 80, 940, 350)
         
         Dim h As Variant
-        h = Array("UNIT", "ID", "NOME DO PROJETO", "CIDADE", "UF", "CRIA«√O", "TIME", "ST. RH", "ST. OPS", "PEND.", "% TAXA", "DIAS P/", "LAN«AM.")
+        h = Array("UNIT", "ID", "NOME DO PROJETO", "CIDADE", "UF", "CRIA√á√ÉO", "TIME", "ST. RH", "ST. OPS", "PEND.", "% TAXA", "DIAS P/", "LAN√áAM.")
         
         For j = 0 To 12
             With pptTable.Table.Cell(1, j + 1).Shape
@@ -127,7 +127,7 @@ Sub GerarDashboardProjetos_Paginado()
                         celula.Fill.ForeColor.RGB = cAmarelo
                         celula.TextFrame.TextRange.Text = lo.DataBodyRange(i, j).Text
                         celula.TextFrame.TextRange.Font.Color.RGB = RGB(100, 70, 0): celula.TextFrame.TextRange.Font.Bold = msoTrue
-                    Case 13 ' LAN«AM.
+                    Case 13 ' LAN√áAM.
                         celula.Fill.ForeColor.RGB = cVerde
                         celula.TextFrame.TextRange.Text = Format(vDataLanc, "dd/mm/yy")
                         celula.TextFrame.TextRange.Font.Color.RGB = vbWhite: celula.TextFrame.TextRange.Font.Bold = msoTrue
@@ -136,9 +136,9 @@ Sub GerarDashboardProjetos_Paginado()
             currentPPTLine = currentPPTLine + 1
         Next i
 
-        ' RodapÈ
+        ' Rodap√©
         With pptSlide.Shapes.AddTextbox(1, 30, 510, 500, 20)
-            .TextFrame.TextRange.Text = "P·gina " & s & " de " & numSlides & " | Project Deployment Tracker"
+            .TextFrame.TextRange.Text = "P√°gina " & s & " de " & numSlides & " | Project Deployment Tracker"
             .TextFrame.TextRange.Font.Name = fName: .TextFrame.TextRange.Font.Size = 7: .TextFrame.TextRange.Font.Color.RGB = RGB(150, 150, 150)
         End With
     Next s
